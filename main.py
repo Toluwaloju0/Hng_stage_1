@@ -20,7 +20,12 @@ app.wsgi_app = ProxyFix(
 # set the error handler for 400 to handle alphabet, symbols and mixed characters
 @app.errorhandler(400)
 def bad_request(e):
-    if request.args.get('number').isalpha() == True:
+    if request.args.get('number') == None:
+        return jsonify({
+            'number': None,
+            'error': True
+        })
+    elif request.args.get('number').isalpha() == True:
         return jsonify({
             'number': 'alphabet',
             'error': True
@@ -39,13 +44,17 @@ def bad_request(e):
 # create a route to the /api/classify-number
 @app.route('/api/classify-number', strict_slashes=False)
 def fun_fact():
-    if request.args.get('number').isdigit() == False:
+    # check if the number argument exists and is not a digit
+    if request.args.get('number') == None or request.args.get('number').isdigit() == False:
         abort(400)
+    
+    #convert to integer and pass to the appopraite functions to process the number
     num = int(request.args.get('number'))
     properties = []
     if armstrong(num):
         properties.append('armstrong')
     properties.append('even' if is_even(num) else 'odd')
+    # create a dictionary to store the number properties
     my_dict = {
         "number": num,
         "is_prime": is_prime(num),
