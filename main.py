@@ -24,22 +24,22 @@ def bad_request(e):
         return jsonify({
             'number': None,
             'error': True
-        })
+        }), 400
     elif request.args.get('number').isalpha() == True:
         return jsonify({
             'number': 'alphabet',
             'error': True
-        })
+        }), 400
     elif request.args.get('number').isalnum() == False:
         return jsonify({
             'number': 'symbol',
             'error': True
-        })
+        }), 400
     else:
         return jsonify({
             'number': 'mixed',
             'error': True
-        })
+        }), 400
 
 # create a route to the /api/classify-number
 @app.route('/api/classify-number', strict_slashes=False)
