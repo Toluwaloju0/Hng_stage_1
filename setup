@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt-get install python -y
+sudo apt-get install python3-pip -y
+sudo apt install -y gunicorn
+pip3 install -r requirement.txt
+sudo apt-get install nginx -y
+sudo apt-get install systemctl -y
+sudo apt-get install ufw -y
+sudo systemctl start nginx
